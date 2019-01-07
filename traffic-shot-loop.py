@@ -59,14 +59,14 @@ while 1:
         today1 = date.today().timetuple()
         today_str = str(today1.tm_year) + twospace(str(today1.tm_mon))+twospace(str(today1.tm_mday))+time1
         
-        tile_name = 'kw20-'+ zoom +'-'+ today_str + 'png'  #make file name with lat/long coord
+        tile_name = 'kw20-'+ zoom +'-'+ today_str   #make file name with lat/long coord
        
         #### remove extra '.' from filename
-        if tile_name.count('.') == 2:
-                tile_name = tile_name.replace(".", "",1)
+        tile_name = tile_name.replace(".", "",) + '.png'
+                
         driver.save_screenshot(tile_name)
         
-        time.sleep(1800)  ### delay for 30 minutes (1800 sec)
+        time.sleep(5)  ### delay
         
         ## append list of tile names after you replace the comma separater with an underscore
         tile_list.append(tile_name.replace(",", "_")) 
@@ -74,7 +74,9 @@ while 1:
         print "Image saved as " + tile_name, "on {:%Y-%b-%d %H:%M:%S}".format(datetime.datetime.now())
              
         driver.quit()
-        time.sleep(10)
+        
+        for i_sleep in range (1800):
+            time.sleep(1) ### delay for 30 minutes (1800 sec) - check every 1 sec
     
     except KeyboardInterrupt:
         break
