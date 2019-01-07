@@ -13,6 +13,7 @@ import datetime
 from datetime import date
 import pandas as pd
 import pyautogui
+import sys
 
 def twospace(x):
 #### adds a 0 to month or day less than 10 (1 -> 01)
@@ -63,7 +64,8 @@ while 1:
        
         #### remove extra '.' from filename
         tile_name = tile_name.replace(".", "",) + '.png'
-                
+        
+        ### take screenshot        
         driver.save_screenshot(tile_name)
         
         time.sleep(5)  ### delay
@@ -75,8 +77,17 @@ while 1:
              
         driver.quit()
         
-        for i_sleep in range (1800):
-            time.sleep(1) ### delay for 30 minutes (1800 sec) - check every 1 sec
+        #### add delay and countdown timer
+        delay = 1800
+        for i_sleep in range (delay):
+            ### delay for 30 minutes (1800 sec) - check every 1 sec            
+            mins, secs = divmod(delay-i_sleep, 60)
+            timeformat = '{:02d}:{:02d}'.format(mins, secs)
+            sys.stdout.write('\r'+timeformat+' till next screenshot')
+            sys.stdout.flush()
+            time.sleep(1)
+        sys.stdout.write('\r                                        ')
+        sys.stdout.flush()
     
     except KeyboardInterrupt:
         break
